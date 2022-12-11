@@ -1,42 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=firefox">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Javier Corti">
-        <meta name="description" content="Web site created by Javier">
-        <link rel="shortcut icon" href="icon/rust.png" type="icon">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" >
-        <link rel="stylesheet" href="/templates/empleados/styles.css">
-        <script src="https://kit.fontawesome.com/11e5ac05a3.js" crossorigin="anonymous"></script>
-        <!-- Complementos para el envio de email -->
-    <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
-    </script>
-    <!-- <script type="text/javascript">
-        (function(){
-            emailjs.init("bDP4wAfrljutc27Hv");
-        })();
-    </script> -->
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
-        <title>👨‍💻 Codo A Codo: CRUD 👩‍💻</title>
-    </head>
-<body>
-    <h1>Hello world</h1>
-    <form action="/add_contact" method="POST" id="form">
+{% extends '/empleados/layout.html' %}
+{% block body %}
+    {% with messages=get_flashed_messages() %}
+    {% if messages %}
+    {% for messages in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{messages}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
+    <form action="/add_employee" enctype="multipart/form-data" method="POST" id="form">
         <input type="text" name="name" id="name" class="name" placeholder="Nombre y Apellido">
             <label for=""></label>
         <input type="email" name="email" id="email" class="email" placeholder="Email" >
             <label for=""></label>
-        <textarea  name="foto" id="foto" class="foto" placeholder="Foto"></textarea>
+        <input type="file"  name="foto" id="foto" class="foto" placeholder="Foto"></input>
             <label for=""></label>
-        <button class="button" type="submit">Enviar</button>
+        <button class="button" type="submit">Cargar</button>
             <p class="warnings" id="warnings"></p>
-        <input type="hidden" name="_next" value="https://codeninja-codoacodo.netlify.app/">
+        <input type="hidden" name="_next" value="">
         <input type="hidden" name="_captcha" value="false">
     </form>
-</body>
-</html>
+    <table id='tabla'>
+        <thread>
+            <tr>
+                <td><strong>Foto</strong></td>
+                <td><strong>Nombre y Apellido</strong></td>
+                <td><strong>Email</strong></td>
+            </tr>
+        </thread>
+        <tbody id='respuesta'>
+            {% for employees in employees%}
+                <tr>
+                    <td><img width="30" src="uploads/{{employees.3}}" alt="Foto del empleado"></td>
+                    <td>{{employees.1}}</td>
+                    <td>{{employees.2}}</td>
+                    <td>
+                        <a href='/edit/{{employees.0}}' class='btn btn-secondary'>Editar</a>
+                        <a href='/delete/{{employees.0}}' class='btn btn-danger'>Borrar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock body %}

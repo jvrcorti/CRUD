@@ -1,0 +1,17 @@
+{% extends '/empleados/layout.html' %}
+{% block body %}
+
+<form action="/edit_employee/{{employees.0}}" enctype="multipart/form-data" method="POST" id="form">
+    <input type="text" name="name" id="name" class="name" placeholder="Nombre y Apellido" value="{{employees.1}}">
+        <label for=""></label>
+    <input type="email" name="email" id="email" class="email" placeholder="Email" value="{{employees.2}}" >
+        <label for=""></label>
+    <input type='file'  name="foto" id="foto" class="foto" placeholder="Foto" value="{{employees.3}}"></input>
+        <label for=""></label>
+    <button class="button" type="submit">Actualizar</button>
+        <p class="warnings" id="warnings"></p>
+    <input type="hidden" name="_next" value="">
+    <input type="hidden" name="_captcha" value="false">
+</form>
+{% endblock body%}
+
